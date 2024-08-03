@@ -3,13 +3,14 @@ local hsl = lush.hsl
 local hsluv = lush.hsluv
 
 local colors = {
-	bg = hsl("#0f0f15"),
-	fg = hsl("#e4f0fb"),
+	bg = hsl("#101010"),
+	fg = hsl("#F2F2F2"),
+	completion = hsl("#131929")
 }
 -- Line number & status col
 colors.linenr = {
-	bg = colors.bg.de(-10).li(-20),
-	fg = colors.fg.de(-10).li(-65),
+	bg = colors.bg.de(10).li(-20),
+	fg = colors.fg.de(10).li(-65),
 }
 
 -- Statusline (Lualine)
@@ -71,12 +72,12 @@ colors.diagnostics = {
 -- Highlight
 colors.hl = {
 	base = hsl("#f0f0ff"),
-	type = hsl("#aeb5d5"),
-	namespace = hsl("#4e5575"),
-	variable = hsl("#ba9cba"),
-	fn = hsl("#5ee4c7"),
-	macro = hsl("#398e80"),
-	import = hsl("#CE2C5D"),
+	type = hsl("#544faf"),
+	namespace = hsl("#69abff"),
+	variable = hsl("#A3B3B3"),
+	fn = hsl("#4cdd8f"),
+	macro = hsl("#3cbdaf"),
+	import = hsl("#386774"),
 	operator = hsl("#e4845e"),
 
 	literals = {
@@ -90,6 +91,11 @@ colors.hl = {
 		text = hsl("#3e3b4A"),
 		todo = hsl("#3f77A0"),
 	},
+}
+
+-- Completion
+colors.cmp = {
+
 }
 
 ---@diagnostic disable: undefined-global
@@ -114,6 +120,10 @@ return lush(function(injected_functions)
 		NoicePopupmenuBorder                   { FloatBorder },
 		NoicePopupBorder                       { FloatBorder },
 
+		-- Telescope (also configures the Cmp window)
+		TelescopeNormal                        { fg="#e4f0fb", bg=colors.completion, }, -- TelescopeNormal xxx guifg=#e4f0fb
+		TelescopeBorder                        { fg="#303340", }, -- TelescopeBorder xxx guifg=#303340
+
 		-- Decorations
 		WinSeparator                           { fg=colors.bg.de(10).li(-20) },
 		Edgycolors                             { WinSeparator },
@@ -124,7 +134,7 @@ return lush(function(injected_functions)
 		CursorLineNr                           { bg = colors.linenr.bg, fg = colors.linenr.fg.li(25), },
 		WarningMsg                             { fg = colors.diagnostics.warn },
 
-		-- {{{ Diagnostics
+		-- Diagnostics
 		TroubleSignInformation				   { fg=colors.diagnostics.get_sign(colors.diagnostics.info) },
 		DiagnosticSignOk					   { fg=colors.diagnostics.get_sign(colors.diagnostics.ok), bg = colors.linenr.bg},
 		DiagnosticUnnecessary                  { fg=colors.diagnostics.ok.li(20).de(15) },
@@ -199,7 +209,7 @@ return lush(function(injected_functions)
 		sym"@type.builtin"                     { Type },
 		sym"@lsp.type.class"                   { fg=colors.hl.type.li(10).de(-25) },
 		sym"@lsp.type.typeParameter"           { fg=colors.hl.type.de(-15).li(15).ro(25), style="bold" },
-		LspInlayHint                           { fg=colors.hl.type.li(-40), gui="italic" },
+		LspInlayHint                           { fg=colors.hl.type.li(10), gui="italic", bg=colors.bg.li(4) },
 
 
 		-- Namespace
@@ -210,11 +220,19 @@ return lush(function(injected_functions)
 		sym"@property"                         { fg=colors.hl.variable.li(-20).de(5), },
 		sym"@lsp.type.property"				   { sym"@property" },
 
+		-- Variable
+		sym"@variable"                         { fg=colors.hl.variable, },
+		sym"@variable.builtin"                 { fg=colors.hl.variable.li(-20).de(15) },
+		sym"@lsp.type.selfKeyword"             { fg=colors.hl.variable.li(25).de(-15) },
+
 		-- Functions
 		Function						       { fg = colors.hl.fn },
 		sym "@function"						   { fg = colors.hl.fn },
 		sym "@function.builtin"				   { fg = colors.hl.fn.de(20).li(-25) },
 		sym "@function.call"				   { fg = colors.hl.fn },
+		sym"@lsp.type.function"                { sym"@function" },
+		sym"@method"                           { fg = colors.hl.fn.de(5).li(-10).ro(40), },
+		sym"@constructor"                      { fg = colors.hl.fn.de(5).ro(40), },
 
 		-- Macros/Preprocessor
 		Include                                { fg=colors.hl.import, },
@@ -234,6 +252,12 @@ return lush(function(injected_functions)
 		sym"@operator"                         { Operator },
 		sym"@keyword.conditional.ternary"      { Operator },
 		sym"@keyword.operator"				   { Operator },
+
+		-- Keywords
+		sym"@keyword"                          { fg=colors.hl.base, gui="bold" },
+		sym"@keyword.modifier"                 { fg=colors.hl.type.ro(50).li(-15).de(10), gui="italic" },
+		sym"@keyword.function"				   { fg=colors.hl.fn.li(15).de(30) }, -- function()/end
+		sym"@keyword.coroutine"				   { fg=colors.hl.fn.ro(-20).li(-15).de(30) },
 
 		-- Literals
 		String                                 { fg = colors.hl.literals.string, },
@@ -266,7 +290,54 @@ return lush(function(injected_functions)
 		Todo                                   { bg=colors.hl.comment.todo },
 		sym"@comment.todo"                     { Todo },
 		sym"@comment.note"                     { DiagnosticInfo },
-		
+
+		-- Cmp completion symbols
+		CmpItemKind							{ fg=colors.fg, },
+		CmpItemKindText						{ fg=colors.fg, },
+		CmpItemKindMethod					{ sym"@method", },
+		CmpItemKindFunction					{ sym"@function", },
+		CmpItemKindKeywordFunction			{ sym"@keyword.function", },
+		CmpItemKindConstructor				{ sym"@constructor", },
+		CmpItemKindField					{ sym"@property", },
+		CmpItemKindVariable					{ sym"@variable", },
+			--Class = "󰠱",
+			--Interface = "",
+			--Module = "",
+			--Property = "󰜢",
+			--Unit = "󰑭",
+			--Value = "󰎠",
+			--Enum = "",
+			--Keyword = "󰌋",
+			--Snippet = "",
+			--Color = "󰏘",
+			--File = "󰈙",
+			--Reference = "󰈇",
+			--Folder = "󰉋",
+			--EnumMember = "",
+			--Constant = "󰏿",
+			--Boolean = ' ',
+			--Struct = "󰙅",
+			--Event = "",
+			--Operator = "󰆕",
+			--Type = ' ',
+			--TypeParameter = '󰆩 ',
+			--VariableBuiltin = '󰫧 ',
+			--KeywordOperator = ' ',
+			--VariableMember = '󱃻 ',
+			--Comment = ' ',
+			--String = ' ',
+			--StringEscape = '󱊷 ',
+			--Character = '󰾹',
+			--Number = '',
+			--KeywordType = '',
+			--FunctionMacro = '󰡱',
+			--VariableParameter = ' ',
+			--KeywordConditional = '󰦐 ',
+			--KeywordModifier = ' ',
+			--KeywordImport = '󰋺 ',
+			--TypeBuiltin = '',
+			--KeywordRepeat = '󰑖',
+			--KeywordReturn = '󰌑',
 
 --@keyword.directive         ; various preprocessor directives & shebangs
 --@keyword.directive.define  ; preprocessor definition directives
@@ -285,10 +356,6 @@ return lush(function(injected_functions)
 @operator             ; symbolic operators (e.g. `+` / `*`)
 --]]
 
-		sym"@keyword"                          { fg=colors.hl.base, gui="bold" },
-		sym"@keyword.modifier"                 { fg=colors.hl.type.ro(50).li(-15).de(10), gui="italic" },
-		sym"@keyword.function"				   { fg=colors.hl.fn.li(15).de(30) }, -- function()/end
-		sym"@keyword.coroutine"				   { fg=colors.hl.fn.ro(-20).li(-15).de(30) },
 
 
 		--[[
@@ -317,7 +384,6 @@ return lush(function(injected_functions)
 		sym"@parameter"                        { fg="#e4f0fb", }, -- @parameter     xxx guifg=#e4f0fb
 		sym"@tag.attribute"                    { gui="italic", fg="#91b4d5", }, -- @tag.attribute xxx gui=italic guifg=#91b4d5
 		sym"@punctuation.bracket"              { fg="#e4f0fb", }, -- @punctuation.bracket xxx guifg=#e4f0fb
-		sym"@method"                           { fg="#5de4c7", }, -- @method        xxx guifg=#5de4c7
 		sym"@constant.falsy"                   { fg="#d0679d", }, -- @constant.falsy xxx guifg=#d0679d
 		sym"@import.identifier.typescript"     { fg="#add7ff", }, -- @import.identifier.typescript xxx guifg=#add7ff
 		sym"@import.identifier.tsx"            { fg="#add7ff", }, -- @import.identifier.tsx xxx guifg=#add7ff
@@ -325,15 +391,11 @@ return lush(function(injected_functions)
 		sym"@text"                             { fg="#e4f0fb", }, -- @text          xxx guifg=#e4f0fb
 		sym"@tag.delimiter"                    { fg="#e4f0fb", }, -- @tag.delimiter xxx guifg=#e4f0fb
 		sym"@punctuation.delimiter"            { fg="#91b4d5", }, -- @punctuation.delimiter xxx guifg=#91b4d5
-		sym"@constructor"                      { fg="#5de4c7", }, -- @constructor   xxx guifg=#5de4c7
 		sym"@punctuation.special"              { fg="#91b4d5", }, -- @punctuation.special xxx guifg=#91b4d5
 		sym"@markup.strong"                    { gui="bold", }, -- @markup.strong xxx cterm=bold gui=bold
 		sym"@markup.italic"                    { gui="italic", }, -- @markup.italic xxx cterm=italic gui=italic
 		sym"@markup.strikethrough"             { gui="strikethrough", }, -- @markup.strikethrough xxx cterm=strikethrough gui=strikethrough
 		sym"@markup.underline"                 { gui="underline", }, -- @markup.underline xxx cterm=underline gui=underline
-		sym"@variable"                         { fg=colors.hl.variable, }, -- @variable      xxx guifg=#e4f0fb
-		sym"@variable.builtin"                 { fg=colors.hl.variable.li(-20).de(15) }, -- @variable.builtin xxx guifg=#add7ff
-		sym"@lsp.type.selfKeyword"             { fg=colors.hl.variable.li(25).de(-15) },
 		sym"@constant.builtin"                 { fg="#add7ff", }, -- @constant.builtin xxx guifg=#add7ff
 		sym"@label"                            { fg="#91b4d5", }, -- @label         xxx guifg=#91b4d5
 
@@ -346,7 +408,6 @@ return lush(function(injected_functions)
 		--sym"@lsp.type.parameter" { sym"@parameter" },
 		--sym"@lsp.type.variable" { sym"@variable" },
 		--sym"@lsp.type.enumMember" { sym"@constant" },
-		sym"@lsp.type.function" { sym"@function" },
 		--sym"@lsp.type.method" { sym"@method" },
 		sym"@lsp.type.decorator" { sym"@function" },
 
@@ -599,7 +660,6 @@ return lush(function(injected_functions)
 		NvimFigureBrace                        { NvimInternalError }, -- NvimFigureBrace xxx links to NvimInternalError
 		NvimSingleQuotedUnknownEscape          { NvimInternalError }, -- NvimSingleQuotedUnknownEscape xxx links to NvimInternalError
 		NvimInvalidSingleQuotedUnknownEscape   { NvimInternalError }, -- NvimInvalidSingleQuotedUnknownEscape xxx links to NvimInternalError
-		TelescopeBorder                        { fg="#303340", }, -- TelescopeBorder xxx guifg=#303340
 		TelescopePreviewBorder                 { TelescopeBorder }, -- TelescopePreviewBorder xxx links to TelescopeBorder
 		TelescopeResultsBorder                 { TelescopeBorder }, -- TelescopeResultsBorder xxx links to TelescopeBorder
 		TelescopePreviewTitle                  { bg="#5de4c7", fg="#1b1e28", }, -- TelescopePreviewTitle xxx guifg=#1b1e28 guibg=#5de4c7
@@ -607,7 +667,6 @@ return lush(function(injected_functions)
 		TelescopePromptBorder                  { fg="#303340", }, -- TelescopePromptBorder xxx guifg=#303340
 		TelescopeResultsTitle                  { bg="#1f2335", }, -- TelescopeResultsTitle xxx guibg=#1f2335
 		TelescopePromptTitle                   { bg="#89ddff", fg="#1b1e28", }, -- TelescopePromptTitle xxx guifg=#1b1e28 guibg=#89ddff
-		TelescopeNormal                        { fg="#e4f0fb", }, -- TelescopeNormal xxx guifg=#e4f0fb
 		TelescopeResultsNormal                 { TelescopeNormal }, -- TelescopeResultsNormal xxx links to TelescopeNormal
 		TelescopePreviewNormal                 { TelescopeNormal }, -- TelescopePreviewNormal xxx links to TelescopeNormal
 		TelescopePromptPrefix                  { fg="#767c9d", }, -- TelescopePromptPrefix xxx guifg=#767c9d
@@ -672,41 +731,8 @@ return lush(function(injected_functions)
 		CmpItemAbbrMatchDefault                { fg="#a6accd", }, -- CmpItemAbbrMatchDefault xxx guifg=#a6accd
 		CmpItemAbbrMatchFuzzy                  { gui="bold", fg="#5de4c7", }, -- CmpItemAbbrMatchFuzzy xxx gui=bold guifg=#5de4c7
 		CmpItemAbbrMatchFuzzyDefault           { fg="#a6accd", }, -- CmpItemAbbrMatchFuzzyDefault xxx guifg=#a6accd
-		CmpItemKind                            { fg="#91b4d5", }, -- CmpItemKind    xxx guifg=#91b4d5
-		CmpItemKindConstantDefault             { CmpItemKind }, -- CmpItemKindConstantDefault xxx links to CmpItemKind
-		CmpItemKindSnippetDefault              { CmpItemKind }, -- CmpItemKindSnippetDefault xxx links to CmpItemKind
-		CmpItemKindMethodDefault               { CmpItemKind }, -- CmpItemKindMethodDefault xxx links to CmpItemKind
-		CmpItemKindInterfaceDefault            { CmpItemKind }, -- CmpItemKindInterfaceDefault xxx links to CmpItemKind
-		CmpItemKindModuleDefault               { CmpItemKind }, -- CmpItemKindModuleDefault xxx links to CmpItemKind
-		CmpItemKindPropertyDefault             { CmpItemKind }, -- CmpItemKindPropertyDefault xxx links to CmpItemKind
-		CmpItemKindTypeParameterDefault        { CmpItemKind }, -- CmpItemKindTypeParameterDefault xxx links to CmpItemKind
-		CmpItemKindOperatorDefault             { CmpItemKind }, -- CmpItemKindOperatorDefault xxx links to CmpItemKind
-		CmpItemKindEnumMemberDefault           { CmpItemKind }, -- CmpItemKindEnumMemberDefault xxx links to CmpItemKind
-		CmpItemKindVariableDefault             { CmpItemKind }, -- CmpItemKindVariableDefault xxx links to CmpItemKind
-		CmpItemKindEventDefault                { CmpItemKind }, -- CmpItemKindEventDefault xxx links to CmpItemKind
-		CmpItemKindEnumDefault                 { CmpItemKind }, -- CmpItemKindEnumDefault xxx links to CmpItemKind
-		CmpItemKindStructDefault               { CmpItemKind }, -- CmpItemKindStructDefault xxx links to CmpItemKind
-		CmpItemKindFileDefault                 { CmpItemKind }, -- CmpItemKindFileDefault xxx links to CmpItemKind
-		CmpItemKindConstructorDefault          { CmpItemKind }, -- CmpItemKindConstructorDefault xxx links to CmpItemKind
-		CmpItemKindKeywordDefault              { CmpItemKind }, -- CmpItemKindKeywordDefault xxx links to CmpItemKind
-		CmpItemKindFunctionDefault             { CmpItemKind }, -- CmpItemKindFunctionDefault xxx links to CmpItemKind
-		CmpItemKindTextDefault                 { CmpItemKind }, -- CmpItemKindTextDefault xxx links to CmpItemKind
-		CmpItemKindFieldDefault                { CmpItemKind }, -- CmpItemKindFieldDefault xxx links to CmpItemKind
-		CmpItemKindClassDefault                { CmpItemKind }, -- CmpItemKindClassDefault xxx links to CmpItemKind
-		CmpItemKindFolderDefault               { CmpItemKind }, -- CmpItemKindFolderDefault xxx links to CmpItemKind
-		CmpItemKindReferenceDefault            { CmpItemKind }, -- CmpItemKindReferenceDefault xxx links to CmpItemKind
-		CmpItemKindColorDefault                { CmpItemKind }, -- CmpItemKindColorDefault xxx links to CmpItemKind
-		CmpItemKindValueDefault                { CmpItemKind }, -- CmpItemKindValueDefault xxx links to CmpItemKind
-		CmpItemKindUnitDefault                 { CmpItemKind }, -- CmpItemKindUnitDefault xxx links to CmpItemKind
-		CmpItemKindDefault                     { fg="#767c9d", }, -- CmpItemKindDefault xxx guifg=#767c9d
-		CmpItemMenuDefault                     { fg="#a6accd", }, -- CmpItemMenuDefault xxx guifg=#a6accd
+		CmpItemMenuDefault                     { fg="#a6accd", bg= colors.bg.li(5), }, -- CmpItemMenuDefault xxx guifg=#a6accd
 		CmpItemMenu                            { CmpItemMenuDefault }, -- CmpItemMenu    xxx links to CmpItemMenuDefault
-		CmpItemKindSnippet                     { fg="#a6accd", }, -- CmpItemKindSnippet xxx guifg=#a6accd
-		CmpItemKindMethod                      { fg="#d0679d", }, -- CmpItemKindMethod xxx guifg=#d0679d
-		CmpItemKindInterface                   { fg="#add7ff", }, -- CmpItemKindInterface xxx guifg=#add7ff
-		CmpItemKindVariable                    { fg="#5de4c7", }, -- CmpItemKindVariable xxx guifg=#5de4c7
-		CmpItemKindFunction                    { fg="#89ddff", }, -- CmpItemKindFunction xxx guifg=#89ddff
-		CmpItemKindClass                       { fg="#fffac2", }, -- CmpItemKindClass xxx guifg=#fffac2
 		NeogitGraphAuthor                      { fg="#8cf8f7", }, -- NeogitGraphAuthor xxx guifg=#8cf8f7
 		NeogitTagName                          { fg="#e0e2ea", }, -- NeogitTagName  xxx guifg=#e0e2ea
 		NeogitRemote                           { gui="bold", fg="#b3f6c0", }, -- NeogitRemote   xxx cterm=bold gui=bold guifg=#b3f6c0
