@@ -201,6 +201,9 @@ return lush(function(injected_functions)
 		IblWhitespace                          { IblIndent },
 		IblScope                               { fg=colors.fg.de(-10).li(-40), },
 
+		-- Lsp UI
+		LspSignatureActiveParameter            { bg=colors.bg.li(50), }, -- LspSignatureActiveParameter xxx guibg=#a6accd
+
 		-- Type
 		StorageClass                           { fg=colors.hl.type.de(25).li(-30), style="italic" },
 		Type                                   { fg=colors.hl.type.li(-20).de(25), },
@@ -215,6 +218,7 @@ return lush(function(injected_functions)
 		-- Namespace
 		sym"@namespace"                        { fg=colors.hl.namespace },
 		sym"@lsp.type.namespace"               { sym"@namespace" },
+		Namespace				               { sym"@namespace" },
 
 		-- Property
 		sym"@property"                         { fg=colors.hl.variable.li(-20).de(5), },
@@ -587,7 +591,6 @@ return lush(function(injected_functions)
 		LspReferenceRead                       { bg="#add7ff", }, -- LspReferenceRead xxx guibg=#add7ff
 		LspReferenceText                       { bg="#add7ff", }, -- LspReferenceText xxx guibg=#add7ff
 		LspReferenceWrite                      { bg="#add7ff", }, -- LspReferenceWrite xxx guibg=#add7ff
-		LspSignatureActiveParameter            { bg="#a6accd", }, -- LspSignatureActiveParameter xxx guibg=#a6accd
 		NvimDapVirtualTextInfo                 { DiagnosticVirtualTextInfo }, -- NvimDapVirtualTextInfo xxx links to DiagnosticVirtualTextInfo
 		NoiceFormatLevelInfo                   { DiagnosticVirtualTextInfo }, -- NoiceFormatLevelInfo xxx links to DiagnosticVirtualTextInfo
 		NoiceVirtualText                       { DiagnosticVirtualTextInfo }, -- NoiceVirtualText xxx links to DiagnosticVirtualTextInfo
