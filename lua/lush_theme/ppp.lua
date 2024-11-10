@@ -25,7 +25,7 @@ colors.line = {
 colors.modes = {
 	-- NOTE: Cursorline colors is determined by `hi CursorLine`
 	normal = hsl("#7fb070"),
-	insert = hsl("#29393f"),
+	insert = hsl("#192929"),
 	visual = hsl("#2e243e"),
 	replace =hsl("#df8040"),
 
@@ -294,6 +294,20 @@ return lush(function(injected_functions)
 		Todo                                   { bg=colors.hl.comment.todo },
 		sym"@comment.todo"                     { Todo },
 		sym"@comment.note"                     { DiagnosticInfo },
+
+		-- Modes (plugin that changes the cursorline color)
+		ModesInsertCursorLineNr                { bg=colors.modes.insert.li(10), }, -- ModesInsertCursorLineNr xxx guibg=#121f1e
+		ModesInsertCursorLineSign              { bg=colors.modes.insert.li(10), }, -- ModesInsertCursorLineSign xxx guibg=#121f1e
+		ModesInsertCursorLineFold              { bg=colors.modes.insert.li(10), }, -- ModesInsertCursorLineFold xxx guibg=#121f1e
+		ModesInsertCursorLine                  { bg=colors.modes.insert, }, -- ModesInsertCursorLine xxx guibg=#121f1e
+		ModesInsert                            { bg=colors.modes.insert, }, -- ModesInsert    xxx guibg=#78ccc5
+
+		ModesVisualCursorLine                  { bg=colors.modes.visual.li(10), }, -- ModesVisualCursorLine xxx guibg=#170a1d
+		ModesVisualCursorLineNr                { bg=colors.modes.visual.li(10), }, -- ModesVisualCursorLineNr xxx guibg=#170a1d
+		ModesVisualCursorLineSign              { bg=colors.modes.visual.li(10), }, -- ModesVisualCursorLineSign xxx guibg=#170a1d
+		ModesVisualCursorLineFold              { bg=colors.modes.visual.li(10), }, -- ModesVisualCursorLineFold xxx guibg=#170a1d
+		ModesVisual                            { bg=colors.modes.visual, }, -- ModesVisual    xxx guibg=#9745be
+		ModesVisualVisual                      { bg=colors.modes.visual, }, -- ModesVisualVisual xxx guibg=#170a1d
 
 		-- Cmp completion symbols
 		CmpItemKind							{ fg=colors.fg, },
@@ -1460,8 +1474,6 @@ return lush(function(injected_functions)
 		DevIconPub                             { fg="#e3c58e", }, -- DevIconPub     xxx ctermfg=222 guifg=#e3c58e
 		ModesCopy                              { bg="#f5c359", }, -- ModesCopy      xxx guibg=#f5c359
 		ModesDelete                            { bg="#c75c6a", }, -- ModesDelete    xxx guibg=#c75c6a
-		ModesInsert                            { bg="#78ccc5", }, -- ModesInsert    xxx guibg=#78ccc5
-		ModesVisual                            { bg="#9745be", }, -- ModesVisual    xxx guibg=#9745be
 		ModesCopyCursorLine                    { bg="#251d0d", }, -- ModesCopyCursorLine xxx guibg=#251d0d
 		ModesCopyCursorLineNr                  { bg="#251d0d", }, -- ModesCopyCursorLineNr xxx guibg=#251d0d
 		ModesCopyCursorLineSign                { bg="#251d0d", }, -- ModesCopyCursorLineSign xxx guibg=#251d0d
@@ -1470,17 +1482,9 @@ return lush(function(injected_functions)
 		ModesDeleteCursorLineNr                { bg="#1e0e10", }, -- ModesDeleteCursorLineNr xxx guibg=#1e0e10
 		ModesDeleteCursorLineSign              { bg="#1e0e10", }, -- ModesDeleteCursorLineSign xxx guibg=#1e0e10
 		ModesDeleteCursorLineFold              { bg="#1e0e10", }, -- ModesDeleteCursorLineFold xxx guibg=#1e0e10
-		ModesInsertCursorLine                  { bg="#121f1e", }, -- ModesInsertCursorLine xxx guibg=#121f1e
-		ModesInsertCursorLineNr                { bg="#121f1e", }, -- ModesInsertCursorLineNr xxx guibg=#121f1e
-		ModesInsertCursorLineSign              { bg="#121f1e", }, -- ModesInsertCursorLineSign xxx guibg=#121f1e
-		ModesInsertCursorLineFold              { bg="#121f1e", }, -- ModesInsertCursorLineFold xxx guibg=#121f1e
-		ModesVisualCursorLine                  { bg="#170a1d", }, -- ModesVisualCursorLine xxx guibg=#170a1d
-		ModesVisualCursorLineNr                { bg="#170a1d", }, -- ModesVisualCursorLineNr xxx guibg=#170a1d
-		ModesVisualCursorLineSign              { bg="#170a1d", }, -- ModesVisualCursorLineSign xxx guibg=#170a1d
-		ModesVisualCursorLineFold              { bg="#170a1d", }, -- ModesVisualCursorLineFold xxx guibg=#170a1d
+
 		ModesInsertModeMsg                     { fg="#78ccc5", }, -- ModesInsertModeMsg xxx guifg=#78ccc5
 		ModesVisualModeMsg                     { fg="#9745be", }, -- ModesVisualModeMsg xxx guifg=#9745be
-		ModesVisualVisual                      { bg="#170a1d", }, -- ModesVisualVisual xxx guibg=#170a1d
 		TitleString                            { fg="#add7ff", }, -- TitleString    xxx guifg=#add7ff
 		LeapBackground                         { bg="#303340", }, -- LeapBackground xxx guibg=#303340
 		LeapLabelSelected                      { bg="#fffac2", fg="#1b1e28", }, -- LeapLabelSelected xxx guifg=#1b1e28 guibg=#fffac2
