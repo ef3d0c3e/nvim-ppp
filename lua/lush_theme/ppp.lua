@@ -3,7 +3,7 @@ local hsl = lush.hsl
 local hsluv = lush.hsluv
 
 local colors = {
-	bg = hsl("#101010"),
+	bg = hsl("#101315"),
 	fg = hsl("#F2F2F2"),
 	completion = hsl("#131929")
 }
@@ -129,7 +129,7 @@ return lush(function(injected_functions)
 		Edgycolors                             { WinSeparator },
 
 		-- Column
-		LineNr                                 { bg = colors.linenr.bg, fg=colors.linenr.fg },
+		LineNr                                 { bg = colors.linenr.bg.li(-10), fg=colors.linenr.fg.li(10) },
 		SignColumn                             { LineNr, },
 		CursorLineNr                           { bg = colors.linenr.bg, fg = colors.linenr.fg.li(25), },
 		WarningMsg                             { fg = colors.diagnostics.warn },
@@ -308,6 +308,22 @@ return lush(function(injected_functions)
 		ModesVisualCursorLineFold              { bg=colors.modes.visual.li(10), }, -- ModesVisualCursorLineFold xxx guibg=#170a1d
 		ModesVisual                            { bg=colors.modes.visual, }, -- ModesVisual    xxx guibg=#9745be
 		ModesVisualVisual                      { bg=colors.modes.visual, }, -- ModesVisualVisual xxx guibg=#170a1d
+
+		-- GitSigns
+		GitSignsAdd                            { fg="#5de4c7", bg=colors.linenr.bg.li(-10) }, -- GitSignsAdd    xxx guifg=#5de4c7
+		GitSignsUntracked                      { GitSignsAdd, }, -- GitSignsUntracked xxx links to GitSignsAdd
+		GitSignsAddNr                          { GitSignsAdd, }, -- GitSignsAddNr  xxx links to GitSignsAdd
+		SignAdd                                { GitSignsAdd, }, -- SignAdd        xxx links to GitSignsAdd
+
+		GitSignsChange                         { fg="#add7ff", bg=colors.linenr.bg.li(-10) }, -- GitSignsChange xxx guifg=#add7ff
+		GitSignsChangedelete                   { GitSignsChange }, -- GitSignsChangedelete xxx links to GitSignsChange
+		GitSignsChangeNr                       { GitSignsChange }, -- GitSignsChangeNr xxx links to GitSignsChange
+		SignChange                             { GitSignsChange }, -- SignChange     xxx links to GitSignsChange
+
+		GitSignsDelete                         { fg="#d0679d", bg=colors.linenr.bg.li(-10) }, -- GitSignsDelete xxx guifg=#d0679d
+		GitSignsTopdelete                      { GitSignsDelete }, -- GitSignsTopdelete xxx links to GitSignsDelete
+		GitSignsDeleteNr                       { GitSignsDelete }, -- GitSignsDeleteNr xxx links to GitSignsDelete
+		SignDelete                             { GitSignsDelete }, -- SignDelete     xxx links to GitSignsDelete
 
 		-- Cmp completion symbols
 		CmpItemKind							{ fg=colors.fg, },
@@ -492,7 +508,7 @@ return lush(function(injected_functions)
 		NoiceFormatConfirmDefault              { Visual }, -- NoiceFormatConfirmDefault xxx links to Visual
 		NvimSurroundHighlight                  { Visual }, -- NvimSurroundHighlight xxx links to Visual
 		Folded                                 { bg="#171922", fg="#e4f0fb", }, -- Folded         xxx guifg=#e4f0fb guibg=#171922
-		FoldColumn                             { fg="#767c9d", }, -- FoldColumn     xxx guifg=#767c9d
+		FoldColumn                             { fg="#767c9d", bg=colors.linenr.bg.li(-10) }, -- FoldColumn     xxx guifg=#767c9d
 		CursorLineFold                         { FoldColumn }, -- CursorLineFold xxx links to FoldColumn
 		DiffAdd                                { bg="#3c8178", }, -- DiffAdd        xxx ctermfg=0 ctermbg=10 guibg=#3c8178
 		GitSignsAddLn                          { DiffAdd }, -- GitSignsAddLn  xxx links to DiffAdd
@@ -880,18 +896,6 @@ return lush(function(injected_functions)
 		BufferLineDiagnosticSelected           { bg="#14161b", gui="bold,italic", fg="#a8a9af", }, -- BufferLineDiagnosticSelected xxx cterm=bold,italic gui=bold,italic guifg=#a8a9af guibg=#14161b
 		BufferLineDiagnosticVisible            { bg="#121418", fg="#74767b", }, -- BufferLineDiagnosticVisible xxx guifg=#74767b guibg=#121418
 		BufferLineNumbersVisible               { bg="#121418", fg="#9b9ea4", }, -- BufferLineNumbersVisible xxx guifg=#9b9ea4 guibg=#121418
-		GitSignsAdd                            { fg="#5de4c7", }, -- GitSignsAdd    xxx guifg=#5de4c7
-		GitSignsUntracked                      { GitSignsAdd }, -- GitSignsUntracked xxx links to GitSignsAdd
-		GitSignsAddNr                          { GitSignsAdd }, -- GitSignsAddNr  xxx links to GitSignsAdd
-		SignAdd                                { GitSignsAdd }, -- SignAdd        xxx links to GitSignsAdd
-		GitSignsChange                         { fg="#add7ff", }, -- GitSignsChange xxx guifg=#add7ff
-		GitSignsChangedelete                   { GitSignsChange }, -- GitSignsChangedelete xxx links to GitSignsChange
-		GitSignsChangeNr                       { GitSignsChange }, -- GitSignsChangeNr xxx links to GitSignsChange
-		SignChange                             { GitSignsChange }, -- SignChange     xxx links to GitSignsChange
-		GitSignsDelete                         { fg="#d0679d", }, -- GitSignsDelete xxx guifg=#d0679d
-		GitSignsTopdelete                      { GitSignsDelete }, -- GitSignsTopdelete xxx links to GitSignsDelete
-		GitSignsDeleteNr                       { GitSignsDelete }, -- GitSignsDeleteNr xxx links to GitSignsDelete
-		SignDelete                             { GitSignsDelete }, -- SignDelete     xxx links to GitSignsDelete
 		GitSignsStagedAdd                      { fg="#597b60", }, -- GitSignsStagedAdd xxx guifg=#597b60
 		GitSignsStagedChange                   { fg="#467c7b", }, -- GitSignsStagedChange xxx guifg=#467c7b
 		GitSignsStagedDelete                   { fg="#7f605c", }, -- GitSignsStagedDelete xxx guifg=#7f605c
