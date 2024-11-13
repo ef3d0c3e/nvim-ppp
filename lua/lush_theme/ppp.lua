@@ -109,7 +109,7 @@ return lush(function(injected_functions)
 		WinBarNC                               { Normal, },
 		CursorLine                             { bg=colors.bg.li(5).de(30), }, -- CursorLine     xxx guibg=#303340
 
-		NormalFloat                            { bg = colors.bg.de(5), },
+		NormalFloat                            { bg = colors.bg.de(5).li(5).ro(20), },
 		DapUIFloatNormal                       { NormalFloat },
 		NoicePopup                             { NormalFloat },
 		NoiceSplit                             { NormalFloat },
@@ -202,7 +202,7 @@ return lush(function(injected_functions)
 		IblScope                               { fg=colors.fg.de(-10).li(-40), },
 
 		-- Lsp UI
-		LspSignatureActiveParameter            { bg=colors.bg.li(50), }, -- LspSignatureActiveParameter xxx guibg=#a6accd
+		LspSignatureActiveParameter            { bg=colors.bg.li(40).de(25), }, -- LspSignatureActiveParameter xxx guibg=#a6accd
 
 		-- Type
 		StorageClass                           { fg=colors.hl.type.de(25).li(-30), style="italic" },
@@ -764,7 +764,7 @@ return lush(function(injected_functions)
 		CmpItemAbbrMatchDefault                { fg="#a6accd", }, -- CmpItemAbbrMatchDefault xxx guifg=#a6accd
 		CmpItemAbbrMatchFuzzy                  { gui="bold", fg="#5de4c7", }, -- CmpItemAbbrMatchFuzzy xxx gui=bold guifg=#5de4c7
 		CmpItemAbbrMatchFuzzyDefault           { fg="#a6accd", }, -- CmpItemAbbrMatchFuzzyDefault xxx guifg=#a6accd
-		CmpItemMenuDefault                     { fg="#a6accd", bg= colors.bg.li(5), }, -- CmpItemMenuDefault xxx guifg=#a6accd
+		CmpItemMenuDefault                     { fg="#a6accd", bg= colors.bg.li(50), }, -- CmpItemMenuDefault xxx guifg=#a6accd
 		CmpItemMenu                            { CmpItemMenuDefault }, -- CmpItemMenu    xxx links to CmpItemMenuDefault
 		NeogitGraphAuthor                      { fg="#8cf8f7", }, -- NeogitGraphAuthor xxx guifg=#8cf8f7
 		NeogitTagName                          { fg="#e0e2ea", }, -- NeogitTagName  xxx guifg=#e0e2ea
