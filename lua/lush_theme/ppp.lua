@@ -110,7 +110,7 @@ return lush(function(injected_functions)
 		WinBarNC                               { Normal, },
 		CursorLine                             { bg=colors.bg.li(5).de(30), }, -- CursorLine     xxx guibg=#303340
 
-		NormalFloat                            { bg = colors.bg.de(5).li(50).ro(20), },
+		NormalFloat                            { bg = colors.bg.de(5).li(5).ro(20), },
 		DapUIFloatNormal                       { NormalFloat },
 		NoicePopup                             { NormalFloat },
 		NoiceSplit                             { NormalFloat },
@@ -126,7 +126,7 @@ return lush(function(injected_functions)
 		TelescopeBorder                        { fg="#303340", }, -- TelescopeBorder xxx guifg=#303340
 
 		-- Decorations
-		WinSeparator                           { fg=colors.bg.de(10).li(80) },
+		WinSeparator                           { fg=colors.bg.de(10).li(-20) },
 		Edgycolors                             { WinSeparator },
 
 		-- Column
