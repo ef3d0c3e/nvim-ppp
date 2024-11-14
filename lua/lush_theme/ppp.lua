@@ -3,7 +3,7 @@ local hsl = lush.hsl
 local hsluv = lush.hsluv
 
 local colors = {
-	bg = hsl("#101315"),
+	bg = hsl("#172129"),
 	fg = hsl("#F2F2F2"),
 	completion = hsl("#131929")
 }
@@ -104,12 +104,13 @@ return lush(function(injected_functions)
 	return {
 		-- UI
 		Normal                                 { bg=colors.bg, fg=colors.fg, },
+		NormalNC                               { Normal, },
 		WinBar                                 { Normal, },
 		EdgyWinBar                             { Normal },
 		WinBarNC                               { Normal, },
 		CursorLine                             { bg=colors.bg.li(5).de(30), }, -- CursorLine     xxx guibg=#303340
 
-		NormalFloat                            { bg = colors.bg.de(5).li(5).ro(20), },
+		NormalFloat                            { bg = colors.bg.de(5).li(50).ro(20), },
 		DapUIFloatNormal                       { NormalFloat },
 		NoicePopup                             { NormalFloat },
 		NoiceSplit                             { NormalFloat },
@@ -125,7 +126,7 @@ return lush(function(injected_functions)
 		TelescopeBorder                        { fg="#303340", }, -- TelescopeBorder xxx guifg=#303340
 
 		-- Decorations
-		WinSeparator                           { fg=colors.bg.de(10).li(-20) },
+		WinSeparator                           { fg=colors.bg.de(10).li(80) },
 		Edgycolors                             { WinSeparator },
 
 		-- Column
@@ -552,7 +553,6 @@ return lush(function(injected_functions)
 		Whitespace                             { fg="#506477", }, -- Whitespace     xxx guifg=#506477
 		IndentBlanklineSpaceCharBlankline      { Whitespace }, -- IndentBlanklineSpaceCharBlankline xxx links to Whitespace
 		IndentBlanklineSpaceChar               { Whitespace }, -- IndentBlanklineSpaceChar xxx links to Whitespace
-		NormalNC                               { bg="#1b1e28", fg="#e4f0fb", }, -- NormalNC       xxx guifg=#e4f0fb guibg=#1b1e28
 		Cursor                                 { bg="#a6accd", fg="#171922", }, -- Cursor         xxx guifg=#171922 guibg=#a6accd
 		CursorIM                               { Cursor }, -- CursorIM       xxx links to Cursor
 		NoiceCursor                            { Cursor }, -- NoiceCursor    xxx links to Cursor
